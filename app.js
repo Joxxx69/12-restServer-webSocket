@@ -1,4 +1,5 @@
 require('dotenv').config();
+//const {dbConnection} = require('./database/config.database');
 
 
 const express = require('express');
@@ -6,8 +7,22 @@ const app = express();
 const cors = require('cors');
 const port = process.env.PORT;
 
+//Data Base
 
+require('./database/config.database')
 
+//-1- forma
+/*
+(async () => {
+    await dbConnection();
+})();
+*/
+
+//-2- forma
+/*dbConnection()
+    .then(res => console.log('bien', res))
+    .catch(err=>console.log('error',err));
+*/
 //Midlewear
 app.use(cors());
 app.use(express.json()); // permite recibir parametros en formato JSON

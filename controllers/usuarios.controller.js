@@ -5,6 +5,7 @@ const { request, response } = require("express");
 
 const usuariosGet = (req = request, res = response) => {
     const query = req.query;
+    //const {q, nombre}=req.query;
     res.json({
         query,
         msg:'get API'
