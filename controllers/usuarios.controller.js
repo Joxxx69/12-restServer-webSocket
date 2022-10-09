@@ -1,4 +1,7 @@
 const { request, response } = require("express");
+const Usuario = require('../models/usuario.model');
+const bcrypt = require('bcrypt');
+const { validationResult } = require("express-validator");
 
 //cambios
 
@@ -21,13 +24,22 @@ const usuariosPut = (req = request, res = response) => {
 }
 
 
-const usuariosPost = (req = request, res = response) => {
-    const {name,age} = req.body;
-    res.status(201).json({
-        name,
-        age,
-        msg:'post API'
-    });
+const usuariosPost = async (req = request, res = response) => {
+    const { nombre, correo, password, rol } = req.body;
+
+    const usuario = new Usuario({ nombre, correo, password, rol });    
+    try {
+        const existeEmail = await Usuario.findOne({ correo });
+        if (existeEmail) {
+            return res.status(400).json({msg:'Ese correo ya esta registrado'})
+        }
+        usuario.password = await bcrypt.hash(usuario.password, 10);
+        await usuario.save();
+        res.json({ usuario });
+        console.log(usuario);
+    } catch (error) {
+        res.status(400).json({error})
+    }
 }
 
 

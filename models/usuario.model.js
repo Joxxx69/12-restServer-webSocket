@@ -1,17 +1,19 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
-const usuarioSchema = mongoose.Schema({
+const UsuarioSchema = new mongoose.Schema({
     nombre: {
         type: String,
         required: [true, 'El nombre es obligatorio']
     },
     correo: {
         type: String,
-        required: [true, 'El correo es obligatorio']
+        unique:true,
+        required: [true, 'El correo es obligatorio'],
     },
     password: {
         type: String,
-        required: [true, 'La contrasena es obligatoria']
+        minlength:6,
+        required: [true, 'La contrasena es obligatoria'],
     },
     img: {
         type: String
@@ -19,7 +21,7 @@ const usuarioSchema = mongoose.Schema({
     rol: {
         type: String,
         required: true,
-        enum: ['ADMIN_ROLE', 'USER_ROLE']
+        enum: ['ADMIN_ROLE', 'USER_ROLE'],
     },
     estado: {
         type: Boolean,
@@ -29,8 +31,14 @@ const usuarioSchema = mongoose.Schema({
         type: Boolean,
         default: false
     }
-},{timestamps:true});
+}, { timestamps: true });
 
-const modelUsuario = mongoose.model('Usuario', usuarioSchema);
 
-module.exports = modelUsuario;
+
+
+
+//const Usuario = mongoose.model('Usuario', usuarioSchema);
+const Usuario = mongoose.model('Usuario', UsuarioSchema);
+
+module.exports = Usuario;
+
