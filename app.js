@@ -23,7 +23,7 @@ require('./database/config.database')
     .then(res => console.log('bien', res))
     .catch(err=>console.log('error',err));
 */
-//Midlewear
+//Midlewear a nivel de aplicacion
 app.use(cors());
 app.use(express.json()); // permite recibir parametros en formato JSON
 app.use(express.static('public'));

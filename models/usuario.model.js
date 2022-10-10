@@ -21,7 +21,7 @@ const UsuarioSchema = new mongoose.Schema({
     rol: {
         type: String,
         required: true,
-        enum: ['ADMIN_ROLE', 'USER_ROLE'],
+        //enum: ['ADMIN_ROLE', 'USER_ROLE','VENTAS_ROLE'],
     },
     estado: {
         type: Boolean,
@@ -31,9 +31,14 @@ const UsuarioSchema = new mongoose.Schema({
         type: Boolean,
         default: false
     }
-}, { timestamps: true });
+}, {timestamps: true});
 
 
+//oculto alguna informacion
+UsuarioSchema.methods.toJSON = function () {
+    const {__v,password,createdAt,updatedAt, ...usuario} = this.toObject();
+    return usuario;
+}
 
 
 
