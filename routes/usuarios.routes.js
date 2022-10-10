@@ -8,7 +8,7 @@ const { errorHandler } = require('../middlewares/errorhandler.middleware');
 
 // aqui ocupo middlewares a nivel de ruta 
 module.exports = function (app=express()) {
-    app.get('/api/usuarios/get',controller.usuariosGet);
+    app.get('/api/usuarios/get',controller.obtenerUsuarios);
     app.put('/api/usuarios/put/:id', [
         check('id', 'No es un ID valido').isMongoId(),
         check('id').custom(existeUsuarioPorId),
@@ -29,7 +29,7 @@ module.exports = function (app=express()) {
     ], controller.crearUsuario, [
         errorHandler
     ]);
-    app.delete('/api/usuarios/delete', controller.usuariosDelete);
+    app.delete('/api/usuarios/delete/:id', controller.eliminarUsuario);
 
 
 }
