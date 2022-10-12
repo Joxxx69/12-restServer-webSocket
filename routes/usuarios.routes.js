@@ -4,9 +4,13 @@ const controller = require('../controllers/usuarios.controller');
 const { esRolValido, emailExiste, existeUsuarioPorId } = require('../helpers/db-validator.helpers');
 const { validarCampos } = require('../middlewares/campos.middleware');
 const { errorHandler } = require('../middlewares/errorhandler.middleware');
+const { validarJWT } = require('../middlewares/validar-jwt.middleware');
+const { esAdminRole } = require('../middlewares/validar-rol.middleware');
 
 
-// aqui ocupo middlewares a nivel de ruta 
+// aqui ocupo middlewares a nivel de ruta
+
+
 module.exports = function (app=express()) {
     app.get('/api/usuarios/get',controller.obtenerUsuarios);
     app.put('/api/usuarios/put/:id', [
@@ -29,7 +33,15 @@ module.exports = function (app=express()) {
     ], controller.crearUsuario, [
         errorHandler
     ]);
-    app.delete('/api/usuarios/delete/:id', controller.eliminarUsuario);
+    app.delete('/api/usuarios/delete/:id', [
+        validarJWT,
+        esAdminRole,
+        check('id','No es un ID valido').isMongoId(),
+        check('id').custom(existeUsuarioPorId),
+        validarCampos
+    ], controller.eliminarUsuario, [
+        errorHandler
+    ]);
 
 
 }

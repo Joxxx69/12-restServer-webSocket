@@ -15,7 +15,6 @@ const emailExiste = async (email = '') => {
     }
     return true;
 }
-
 const existeUsuarioPorId = async (id) => {
     const existeUsuario = await Usuario.findById(id);
     if (!existeUsuario) {

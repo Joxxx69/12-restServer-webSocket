@@ -36,7 +36,8 @@ const UsuarioSchema = new mongoose.Schema({
 
 //oculto alguna informacion
 UsuarioSchema.methods.toJSON = function () {
-    const {__v,password,createdAt,updatedAt, ...usuario} = this.toObject();
+    const {__v,_id,password,createdAt,updatedAt, ...usuario} = this.toObject();
+    usuario.uid = _id;
     return usuario;
 }
 

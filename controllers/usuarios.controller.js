@@ -29,7 +29,8 @@ const actualizarUsuario = async (req = request, res = response) => {
 }
 const crearUsuario = async (req = request, res = response) => {
     const { nombre, correo, password, rol } = req.body;
-    const usuario = new Usuario({ nombre, correo, password, rol });    
+    const usuario = new Usuario({ nombre, correo, password, rol });
+    
     try {
         usuario.password = await bcrypt.hash(usuario.password, 10);
         await usuario.save();
@@ -41,12 +42,13 @@ const crearUsuario = async (req = request, res = response) => {
 
 
 const eliminarUsuario = async (req = request, res = response) => {
-    const {id} = req.params;
-    //const eliminado = await Usuario.findByIdAndDelete(id);
+    const { id } = req.params;
+    //console.log(req.uid,'este es mi request');
     const eliminado = await Usuario.findByIdAndUpdate(id, { estado: false }, { new:true}); //mantener la integridad para la base de datos
+    const usuarioAuth = req.usuario;
     res.json({
-        msg: 'delete API',
-        eliminado
+        eliminado,
+        usuarioAuth
     });
 }
 

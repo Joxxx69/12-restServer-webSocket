@@ -30,6 +30,7 @@ app.use(express.static('public'));
 
 //Routes - curry
 require('./routes/usuarios.routes')(app);
+app.use('/api/auth', require('./routes/auth.routes'));
 /*const server = require('./routes/server.routes');
 server(app);*/
 
