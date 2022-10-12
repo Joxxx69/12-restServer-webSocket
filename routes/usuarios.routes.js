@@ -2,14 +2,11 @@ const express = require('express');
 const { check } = require('express-validator');
 const controller = require('../controllers/usuarios.controller');
 const { esRolValido, emailExiste, existeUsuarioPorId } = require('../helpers/db-validator.helpers');
-const { validarCampos } = require('../middlewares/campos.middleware');
-const { errorHandler } = require('../middlewares/errorhandler.middleware');
-const { validarJWT } = require('../middlewares/validar-jwt.middleware');
-const { esAdminRole } = require('../middlewares/validar-rol.middleware');
+//const { errorHandler } = require('../middlewares/error-handler.middleware');
+const { validarCampos, validarJWT, tieneRole, errorHandler } = require('../middlewares/index.middleware');
 
 
 // aqui ocupo middlewares a nivel de ruta
-
 
 module.exports = function (app=express()) {
     app.get('/api/usuarios/get',controller.obtenerUsuarios);
@@ -35,7 +32,7 @@ module.exports = function (app=express()) {
     ]);
     app.delete('/api/usuarios/delete/:id', [
         validarJWT,
-        esAdminRole,
+        tieneRole('ADMIN_ROLE','VENTAS_ROLE','USER_ROLE'),
         check('id','No es un ID valido').isMongoId(),
         check('id').custom(existeUsuarioPorId),
         validarCampos
