@@ -1,5 +1,6 @@
-const Role = require("../models/rol.model");
-const Usuario = require("../models/usuario.model");
+const { Categoria,Role,Usuario } = require("../models/index.model");
+//const Role = require("../models/rol.model");
+//const Usuario = require("../models/usuario.model");
 
 const esRolValido = async (rol='') => {
     const existeRol = await Role.findOne({rol});//El campo debe coincidir con el del Schema
@@ -22,10 +23,20 @@ const existeUsuarioPorId = async (id) => {
     }
     return true;
 }
+const existeCategoriaPorId = async (id) => {
+    const existeCategoria = await Categoria.findById(id);
+    if (!existeCategoria) {
+        throw new Error(`El id no existe ${id}`);
+    }
+    return true;
+}
+
+
 
 module.exports = {
     esRolValido,
     emailExiste,
-    existeUsuarioPorId
+    existeUsuarioPorId,
+    existeCategoriaPorId
 }
 
