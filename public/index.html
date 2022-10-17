@@ -23,6 +23,9 @@
          data-shape="rectangular"
          data-logo_alignment="left">
       </div>
+      <button id="google_signOut">
+        LogOut
+      </button>
     </div>
     <script src="https://accounts.google.com/gsi/client" async defer></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
@@ -35,9 +38,24 @@
                     headers: { 'x-token': res.credential }
                 }
             )
-            .then(({data})=>console.log('exito',data))
+            .then(({data})=>{
+                console.log('exito',data)
+                localStorage.setItem('email',data.usuario.correo)
+                location.reload();
+            })
             .catch(err=>console.log(err,'Ocurrio un error'))
         }
+        const button = document.querySelector('#google_signOut');
+        button.onclick=()=>{
+            console.log(google.accounts.id);
+            google.accounts.id.disableAutoSelect();
+
+            google.accounts.id.revoke(localStorage.getItem('email'),done=>{
+                localStorage.clear();
+                location.reload();
+            });
+        }
+
     </script>
     <!--<script src="./index.js"></script>-->
 </body>
