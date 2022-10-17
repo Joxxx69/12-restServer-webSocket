@@ -30,6 +30,12 @@
     <script src="https://accounts.google.com/gsi/client" async defer></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script>
+        console.log(window.location.hostname.includes('localhost'));
+        let url = (window.location.hostname.includes('localhost'))
+                  ?'http://localhost:8080/api/auth/google'
+                  :'https://restserver-websockets-joxxx69.herokuapp.com'
+
+
         function handleCredentialResponse(res) {
             console.log('credential',res.credential);
             axios.post('http://localhost:8080/api/auth/post/google',
