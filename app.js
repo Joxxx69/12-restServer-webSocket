@@ -28,10 +28,12 @@ app.use(cors());
 app.use(express.json()); // permite recibir parametros en formato JSON
 app.use(express.static('public'));
 
-//Routes - curry
-require('./routes/usuarios.routes')(app);
-app.use('/api/auth', require('./routes/auth.routes'));
-require('./routes/categorias.routes')(app);
+app.use('/api/auth', require('./routes/auth.routes'));//Routes - Router
+app.use('/api/productos',require('./routes/productos.routes'));//Routes - Router
+require('./routes/usuarios.routes')(app);//Routes - curry
+require('./routes/categorias.routes')(app);//Routes - curry
+require('./routes/buscar.routes')(app);//Routes - curry
+
 /*const server = require('./routes/server.routes');
 server(app);*/
 
