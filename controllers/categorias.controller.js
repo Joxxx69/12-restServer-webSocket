@@ -4,7 +4,7 @@ const {Categoria} = require('../models/index.model');
 
 const crearCategoria = async(req = request, res = response) => {
     const nombre = req.body.nombre.toUpperCase();
-    const categoriaDB = await Categoria.findOne()
+    const categoriaDB = await Categoria.findOne({nombre})
     if (categoriaDB) {
         return res.status(400).json({
             msg:`La categoria ${categoriaDB.nombre}, ya existe`
@@ -17,7 +17,7 @@ const crearCategoria = async(req = request, res = response) => {
     const categoria = new Categoria(data);
     await categoria.save();
     
-    res.json('crear Categoria')
+    res.json(categoria)
 }
 
 const obtenerCategorias = async(req = request, res = response) => {
